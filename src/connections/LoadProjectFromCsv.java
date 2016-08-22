@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 public class LoadProjectFromCsv {
     
     public LoadProjectFromCsv(String filePath){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationPU");
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationNewPU");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();    
         try {

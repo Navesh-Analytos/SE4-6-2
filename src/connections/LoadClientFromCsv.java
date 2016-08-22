@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class LoadClientFromCsv {
     
     public LoadClientFromCsv(String filePath){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationPU");
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationNewPU");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin(); 
         try {
@@ -30,7 +30,7 @@ public class LoadClientFromCsv {
             }
             sc.close();  
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error occured while Loading Client data from CSV file!");
+            JOptionPane.showMessageDialog(null, "Error occured in loading Client data!");
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {

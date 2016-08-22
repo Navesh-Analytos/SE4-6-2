@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,8 @@ public class Project implements Serializable {
     private String managerName;
     private String clientContact;
     private int budget;
+    private Date firstInvoiceDate;
+    private Date nextInvoiceDate;
 
     public Project() {
     }
@@ -58,6 +61,22 @@ public class Project implements Serializable {
 
     public Client getClient() {
         return client;
+    }
+
+    public Date getFirstInvoiceDate() {
+        return firstInvoiceDate;
+    }
+
+    public void setFirstInvoiceDate(Date firstInvoiceDate) {
+        this.firstInvoiceDate = firstInvoiceDate;
+    }
+        
+    public Date getNextInvoiceDate() {
+        return nextInvoiceDate;
+    }
+
+    public void setNextInvoiceDate(Date nextInvoiceDate) {
+        this.nextInvoiceDate = nextInvoiceDate;
     }
 
     public void setClient(Client client) {

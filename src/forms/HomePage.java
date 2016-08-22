@@ -21,11 +21,11 @@ public class HomePage extends javax.swing.JPanel {
         initComponents(); 
                 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        menuBar.setFont(new Font("Times New Roman", Font.BOLD, 11));
         panelHolder.setJMenuBar(menuBar);
 
         JMenu mnMaintain = new JMenu("Maintain");
-        mnMaintain.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mnMaintain.setFont(new Font("Times New Roman", Font.BOLD, 11));
         menuBar.add(mnMaintain);
         if(systemData.getCurrentUser().getEmployeeType().equals("Developer") ||
             systemData.getCurrentUser().getEmployeeType().equals("Project Manager")   ){
@@ -33,7 +33,7 @@ public class HomePage extends javax.swing.JPanel {
         }
         
         JMenuItem mntmCompany = new JMenuItem("Company");
-        mntmCompany.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmCompany.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnMaintain.add(mntmCompany);  
         mntmCompany.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +46,7 @@ public class HomePage extends javax.swing.JPanel {
         });
         
         JMenuItem mntmClient = new JMenuItem("Client");
-        mntmClient.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmClient.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnMaintain.add(mntmClient);
         mntmClient.addActionListener(new ActionListener() {
             @Override
@@ -59,7 +59,7 @@ public class HomePage extends javax.swing.JPanel {
         });             
         
         JMenuItem mntmEmployee = new JMenuItem("Employee");
-        mntmEmployee.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmEmployee.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnMaintain.add(mntmEmployee);
         mntmEmployee.addActionListener(new ActionListener() {
             @Override
@@ -73,13 +73,13 @@ public class HomePage extends javax.swing.JPanel {
                 
 
         JMenu mnManage = new JMenu("Manage");        
-        mnManage.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mnManage.setFont(new Font("Times New Roman", Font.BOLD, 11));
         menuBar.add(mnManage);
         if(!systemData.getCurrentUser().getEmployeeType().equals("Project Manager")   ){
             mnManage.setEnabled(false);
         }
         JMenuItem mntmNewMenuItem_1 = new JMenuItem("Manage Project-Person");
-        mntmNewMenuItem_1.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmNewMenuItem_1.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnManage.add(mntmNewMenuItem_1);
         mntmNewMenuItem_1.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +92,7 @@ public class HomePage extends javax.swing.JPanel {
         });
         
         JMenuItem mntmNewMenuItem_2 = new JMenuItem("Approve Hours");        
-        mntmNewMenuItem_2.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmNewMenuItem_2.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnManage.add(mntmNewMenuItem_2);
         mntmNewMenuItem_2.addActionListener(new ActionListener() {
             @Override
@@ -104,7 +104,7 @@ public class HomePage extends javax.swing.JPanel {
             }
         });
         JMenuItem mntmManageProject = new JMenuItem("Project");              
-        mntmManageProject.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmManageProject.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnManage.add(mntmManageProject);
         mntmManageProject.addActionListener(new ActionListener() {
             @Override
@@ -118,80 +118,88 @@ public class HomePage extends javax.swing.JPanel {
               
         
         JMenu mnInvoice = new JMenu("Invoice");
-        mnInvoice.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mnInvoice.setFont(new Font("Times New Roman", Font.BOLD, 11));
         menuBar.add(mnInvoice);
         if(systemData.getCurrentUser().getEmployeeType().equals("Developer") ||
             systemData.getCurrentUser().getEmployeeType().equals("Project Manager")   ){
             mnInvoice.setEnabled(false);
         }
         JMenuItem mntmGenerateInvoice = new JMenuItem("Generate / Mail Invoice");
-        mntmGenerateInvoice.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmGenerateInvoice.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnInvoice.add(mntmGenerateInvoice);
         mntmGenerateInvoice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                panelHolder.setTitle("Generate  Invoice");
+                panelHolder.getContentPane().removeAll();
+		panelHolder.getContentPane().add(new GenerateInvoice(panelHolder, systemData));
+		panelHolder.getContentPane().revalidate(); 
             }
         });
         
-        JMenuItem mntmNewMenuItem_3 = new JMenuItem("View / Save as PDF");
-        mntmNewMenuItem_3.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        JMenuItem mntmNewMenuItem_3 = new JMenuItem("View invoice");
+        mntmNewMenuItem_3.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnInvoice.add(mntmNewMenuItem_3);
         mntmNewMenuItem_3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                panelHolder.setTitle("View invoice");
+                panelHolder.getContentPane().removeAll();
+		panelHolder.getContentPane().add(new SaveInvoice(panelHolder, systemData));
+		panelHolder.getContentPane().revalidate();  
             }
         });                
         
         JMenu mnReport = new JMenu("Report");
-        mnReport.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mnReport.setFont(new Font("Times New Roman", Font.BOLD, 11));
         menuBar.add(mnReport);
-        JMenuItem mntmGenerateSchedule = new JMenuItem("Available Employees");
-        mntmGenerateSchedule.setFont(new Font("Times New Roman", Font.BOLD, 12));
-        mnReport.add(mntmGenerateSchedule);
-        mntmGenerateSchedule.addActionListener(new ActionListener() {
+        
+        JMenuItem mntmInvoiceReport= new JMenuItem("Invoice Report");
+        mntmInvoiceReport.setFont(new Font("Times New Roman", Font.BOLD, 11));
+        mnReport.add(mntmInvoiceReport);
+        mntmInvoiceReport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                panelHolder.setTitle("Available Employees");
-//                panelHolder.getContentPane().removeAll();
-//		panelHolder.getContentPane().add(new AvailableEmployees(panelHolder, systemData));
-//		panelHolder.getContentPane().revalidate();        
+                panelHolder.setTitle("Invoice Report");
+                panelHolder.getContentPane().removeAll();
+		panelHolder.getContentPane().add(new InvoiceReport(panelHolder, systemData));
+		panelHolder.getContentPane().revalidate();        
             }
         });
-        JMenuItem mntmNewMenuItem = new JMenuItem("Worked Hours");
-        mntmNewMenuItem.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        
+        JMenuItem mntmNewMenuItem = new JMenuItem("Payroll Report");
+        mntmNewMenuItem.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnReport.add(mntmNewMenuItem);
         mntmNewMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                panelHolder.setTitle("Hours Clocked");
-//                panelHolder.getContentPane().removeAll();
-//		panelHolder.getContentPane().add(new HoursClocked(panelHolder, systemData));
-//		panelHolder.getContentPane().revalidate();        
+                panelHolder.setTitle("Payroll Report");
+                panelHolder.getContentPane().removeAll();
+		panelHolder.getContentPane().add(new PayrollReport(panelHolder, systemData));
+		panelHolder.getContentPane().revalidate();        
             }
         });
         JMenuItem mntmProjectReport= new JMenuItem("Project Report");
-        mntmProjectReport.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmProjectReport.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnReport.add(mntmProjectReport);
         mntmProjectReport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                panelHolder.setTitle("Project Report");
-//                panelHolder.getContentPane().removeAll();
-//		panelHolder.getContentPane().add(new ProjectReport(panelHolder, systemData));
-//		panelHolder.getContentPane().revalidate();        
+                panelHolder.setTitle("Project Report");
+                panelHolder.getContentPane().removeAll();
+		panelHolder.getContentPane().add(new ProjectReport(panelHolder, systemData));
+		panelHolder.getContentPane().revalidate();        
             }
         });
                 
                 
         JMenu mnCurUser = new JMenu(systemData.getCurrentUser().getUserName());
-        mnCurUser.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mnCurUser.setFont(new Font("Times New Roman", Font.BOLD, 11));
         menuBar.add(mnCurUser);
         
         if(!systemData.getCurrentUser().getEmployeeType().equals("Accountant")){
             JMenuItem mntmClockHours = new JMenuItem("Clock Hours");            
-            mntmClockHours.setFont(new Font("Times New Roman", Font.BOLD, 12));
+            mntmClockHours.setFont(new Font("Times New Roman", Font.BOLD, 11));
             mnCurUser.add(mntmClockHours);
             mntmClockHours.addActionListener(new ActionListener() {
                 @Override
@@ -205,7 +213,7 @@ public class HomePage extends javax.swing.JPanel {
         }        
         
         JMenuItem mntmChangePassword = new JMenuItem("Change Password");  
-        mntmChangePassword.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmChangePassword.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnCurUser.add(mntmChangePassword);
         mntmChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -218,7 +226,7 @@ public class HomePage extends javax.swing.JPanel {
         });   
         
         JMenuItem mntmLogout = new JMenuItem("Logout");        
-        mntmLogout.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        mntmLogout.setFont(new Font("Times New Roman", Font.BOLD, 11));
         mnCurUser.add(mntmLogout);
         mntmLogout.addActionListener(new ActionListener() {
             @Override

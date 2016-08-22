@@ -7,6 +7,9 @@ import entities.ClockedHours;
 import connections.SystemData;
 import connections.ConnectToDB;
 import java.awt.Font;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -16,8 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Date;
+import javax.imageio.ImageIO;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
+import javax.swing.ImageIcon;
+import javax.swing.plaf.IconUIResource;
 
 
 public class ApproveHours extends javax.swing.JPanel {
@@ -28,12 +34,26 @@ public class ApproveHours extends javax.swing.JPanel {
     List<String> developersList;JFrame  panelHolder;
     SystemData systemData;
     DefaultComboBoxModel model;
+    Calendar selectedWeekStartDate;
         
     public ApproveHours(JFrame  panelHolder, SystemData systemData) {
         this.panelHolder = panelHolder;
         this.systemData = systemData;  
-        initComponents();   
-        
+        initComponents();       
+        try{
+            prevButton.setIcon(new ImageIcon(ImageIO.read( new File("data/prev.jpg")).
+                getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+        }catch(IOException e){
+            System.out.println("Previous Button Icon not Found!");
+        }
+        try{
+            nextButton.setIcon(new ImageIcon(ImageIO.read( new File("data/next.jpg")).
+                getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+        }catch(IOException e){
+            System.out.println("Previous Button Icon not Found!");
+        }
+        selectedWeekStartDate = Calendar.getInstance();
+        selectedWeekStartDate.set(Calendar.DAY_OF_WEEK, 2);
         
         ConnectToDB cm = new ConnectToDB();
         EntityManager em = cm.getEntityManager();
@@ -64,10 +84,13 @@ public class ApproveHours extends javax.swing.JPanel {
         jCheckBox1 = new javax.swing.JCheckBox();
         approveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
+        approveLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         projectSelection = new javax.swing.JComboBox<>();
+        dateLabel = new javax.swing.JLabel();
+        prevButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
 
         jTable1.setFont(new java.awt.Font("Times New Roman", 0, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -118,9 +141,9 @@ public class ApproveHours extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jCheckBox1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -134,17 +157,17 @@ public class ApproveHours extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(approveButton)
                     .addComponent(cancelButton)))
         );
 
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Approve hours for  07/18/2016 to 07/22/2016");
+        approveLabel.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
+        approveLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        approveLabel.setText("Approve hours for  ");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 11)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -167,37 +190,63 @@ public class ApproveHours extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(projectSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 7, Short.MAX_VALUE)
+                .addGap(0, 20, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(projectSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        dateLabel.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
+        dateLabel.setText("07/18/2016 to 07/22/2016");
+
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(approveLabel)
+                .addGap(18, 18, 18)
+                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dateLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(prevButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(approveLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,7 +267,7 @@ public class ApproveHours extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -262,7 +311,7 @@ public class ApproveHours extends javax.swing.JPanel {
             }    
         }
         if(flag){
-            JOptionPane.showMessageDialog(null, "You have not selected Hours to approve!");
+            JOptionPane.showMessageDialog(null, "Please select Hours to approve!");
             return;
         }
         cm.close();
@@ -271,28 +320,27 @@ public class ApproveHours extends javax.swing.JPanel {
     }//GEN-LAST:event_approveButtonActionPerformed
     
     private void refreshTable(){          
-        Calendar calendar = Calendar.getInstance();
-	calendar.set(Calendar.DAY_OF_WEEK, 1);
+        Calendar calendar = (Calendar)selectedWeekStartDate.clone();
+	calendar.set(Calendar.DAY_OF_WEEK, 2);
         Date weekStartDate = new Date(calendar.getTimeInMillis());
-        calendar.set(Calendar.DAY_OF_WEEK, 7);
+        calendar.add(Calendar.DAY_OF_WEEK, 6);
         Date weekEndDate = new Date(calendar.getTimeInMillis());
-        jLabel10.setText("Approve Hours for: "+weekStartDate+" to "+weekEndDate);
+        approveLabel.setText("Approve Hours for: ");
+        dateLabel.setText(weekStartDate+" to "+weekEndDate);
         
         ConnectToDB cm = new ConnectToDB();
         EntityManager em = cm.getEntityManager();        
         selectedProjectId = projectList.get(model.getIndexOf(model.getSelectedItem())).getId();
                 
         Object[] columnNames =  {"Developer", 
-                                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+                                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday", 
                                 "Total", "Select"};
         dates = new ArrayList<>();
         for (int i = 7; i >0; ) {
             Date date = new Date(calendar.getTimeInMillis());
-            //columnNames[i] = date.toString();
             dates.add(0, date);
-            //System.out.println(date);//"<html>"+ date+"<br>"+ "Monday"+"</html>";;
             --i;
-            calendar.set(Calendar.DAY_OF_WEEK, i);           
+            calendar.add(Calendar.DAY_OF_WEEK, -1);           
         }
         
         Query query = em.createQuery("Select pp.personName  from ProjectPerson pp "
@@ -306,9 +354,8 @@ public class ApproveHours extends javax.swing.JPanel {
         for(String developer: developersList){
             Date startDate = new Date(weekStartDate.getTime());
             Date endDate = new Date(weekEndDate.getTime());
-            query = em.createQuery("Select ch from ClockedHours ch where ch.projectID= '"+selectedProjectId +"' "      
-                    //+ "and ch.isApproved = false "
-                    + "and ch.isInvoiced = false and ch.empName='"+developer+"'"  
+            query = em.createQuery("Select ch from ClockedHours ch where ch.projectID= '"+selectedProjectId +"' " 
+                    + "and ch.empName='"+developer+"'"  
                     + " and ch.date between '"+startDate+"' and '"+ endDate+"' order by ch.date");
             hoursList = query.getResultList();
             isApproved[i] = (hoursList==null || hoursList.isEmpty()? false: hoursList.get(0).isIsApproved());
@@ -374,7 +421,7 @@ public class ApproveHours extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = jTable1.getSelectedRow();
                 if(!tableModel.isCellEditable(row, 0)){
-                    JOptionPane.showMessageDialog(null, "Hours in this row is already Approved!");
+                    JOptionPane.showMessageDialog(null, "Can't be edited! Already Approved!");
                 }
             }
         });               
@@ -416,18 +463,31 @@ public class ApproveHours extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        selectedWeekStartDate.add(Calendar.DAY_OF_WEEK, -7);
+        refreshTable();
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        selectedWeekStartDate.add(Calendar.DAY_OF_WEEK, 7);
+        refreshTable();
+    }//GEN-LAST:event_nextButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton approveButton;
+    private javax.swing.JLabel approveLabel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel dateLabel;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton prevButton;
     private javax.swing.JComboBox<String> projectSelection;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,7 +8,7 @@ public class ConnectToDB {
     private EntityManager entityManager;
 
     public ConnectToDB() {
-        entityManagerFactory = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationPU");
+        entityManagerFactory = javax.persistence.Persistence.createEntityManagerFactory("InvoiceGenerationNewPU");
         entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
     }

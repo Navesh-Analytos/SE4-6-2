@@ -8,7 +8,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         JPanel panel = new LoginPage(this);
-        setSize(630,500);
+        setSize(650,500);
         setTitle("Login Page");
         getContentPane().removeAll();
         getContentPane().add(panel);
@@ -48,7 +48,6 @@ public class MainFrame extends javax.swing.JFrame {
         
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                //System.out.println(info.getName());
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
